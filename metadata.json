@@ -1,0 +1,6 @@
+{
+  "name": "ZielRental Portal Mitra",
+  "description": "Portal Mitra Pemilik Aset Peralatan Bayi & Mainan Anak ZielRental - Kelola aset perlengkapan bayi, pantau performa sewa, bagi hasil, arus kas, laundry & sterilisasi, serta legalitas dokumen produk.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
