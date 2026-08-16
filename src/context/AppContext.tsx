@@ -21,6 +21,7 @@ import {
   mockBankAccounts,
   mockNotifications,
 } from '../data/mockData';
+import { apiService, DbStatusResponse } from '../services/api';
 
 export interface ToastMessage {
   id: string;
@@ -435,6 +436,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     // Automatically set as active logged in account
     loadAccountData(newRecord);
 
+    // Sync to PostgreSQL backend / Admin database asynchronously
+    apiService.registerPartner({
+      fullName: data.fullName,
+      whatsapp: data.whatsapp,
+      email: data.email,
+      nik: data.nik,
+      city: data.city,
+      address: data.address,
+      bankName: data.bankName,
+      accountNumber: data.accountNumber,
+      accountHolderName: data.accountHolderName,
+      password: data.password,
+      partnerCode: newPartnerCode,
+    }).catch(err => console.warn('DB Sync Error:', err));
+
     return newRecord;
   };
 
@@ -617,6 +633,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
 
     setSelectedReceiptWithdrawal(newWithdrawal);
+
+    // Sync to PostgreSQL backend / Admin database asynchronously
+    apiService.submitWithdrawal({
+      partnerId: activeAccountId,
+      amount,
+      bankName: selectedBank.bankName,
+      accountNumber: selectedBank.accountNumber,
+      accountHolder: selectedBank.accountHolder,
+      netReceived: amount,
+    }).catch(err => console.warn('Withdrawal DB Sync Error:', err));
+
     return true;
   };
 
