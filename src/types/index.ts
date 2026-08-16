@@ -192,6 +192,20 @@ export interface CashTransaction {
   status: 'success' | 'pending' | 'failed';
 }
 
+export interface RegisterPartnerData {
+  fullName: string;
+  whatsapp: string;
+  email: string;
+  nik: string;
+  city: string;
+  address: string;
+  bankName: string;
+  accountNumber: string;
+  accountHolderName: string;
+  password: string;
+  partnerCode?: string;
+}
+
 export interface PartnerProfile {
   id: string;
   partnerCode: string;
@@ -216,6 +230,7 @@ export interface PartnerProfile {
   address: string;
   npwp: string;
   idCardNumber: string;
+  password?: string;
 }
 
 export interface NotificationItem {

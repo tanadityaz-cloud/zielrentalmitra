@@ -16,10 +16,11 @@ import {
   Eye,
   EyeOff,
   BadgeCheck,
+  RotateCcw,
 } from 'lucide-react';
 
 export const RegisterView: React.FC = () => {
-  const { setCurrentPage, addToast, setPartner } = useApp();
+  const { setCurrentPage, addToast, registerPartner } = useApp();
 
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -27,41 +28,60 @@ export const RegisterView: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
 
   // 1. Identitas Pemilik Sewa
-  const [fullName, setFullName] = useState('Rizky Pratama');
-  const [whatsapp, setWhatsapp] = useState('081298765432');
-  const [email, setEmail] = useState('rizky.pratama@gmail.com');
-  const [nik, setNik] = useState('3171052408920003');
-  const [city, setCity] = useState('Jakarta Selatan');
-  const [address, setAddress] = useState('Jl. Senopati Raya No. 45, Kebayoran Baru');
+  const [fullName, setFullName] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
+  const [email, setEmail] = useState('');
+  const [nik, setNik] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
 
   // 2. Rekening Bank Pembayaran
   const [bankName, setBankName] = useState('Bank Central Asia (BCA)');
-  const [accountNumber, setAccountNumber] = useState('8830192841');
-  const [accountHolderName, setAccountHolderName] = useState('RIZKY PRATAMA');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [accountHolderName, setAccountHolderName] = useState('');
 
   // 3. Password Akun
-  const [password, setPassword] = useState('MitraZiel@2026');
-  const [confirmPassword, setConfirmPassword] = useState('MitraZiel@2026');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   // Generated Partner Code
   const [generatedPartnerCode, setGeneratedPartnerCode] = useState('ZR-MTR-88219');
 
-  const handleQuickFill = () => {
-    setFullName('Rizky Pratama');
-    setWhatsapp('081298765432');
-    setEmail('rizky.pratama@gmail.com');
-    setNik('3171052408920003');
-    setCity('Jakarta Selatan');
-    setAddress('Jl. Senopati Raya No. 45, Kebayoran Baru');
+  const handleResetForm = () => {
+    setFullName('');
+    setWhatsapp('');
+    setEmail('');
+    setNik('');
+    setCity('');
+    setAddress('');
     setBankName('Bank Central Asia (BCA)');
-    setAccountNumber('8830192841');
-    setAccountHolderName('RIZKY PRATAMA');
+    setAccountNumber('');
+    setAccountHolderName('');
+    setPassword('');
+    setConfirmPassword('');
+    addToast({
+      type: 'info',
+      title: 'Formulir Dikosongkan',
+      message: 'Semua kolom data pendaftaran telah dibersihkan.',
+    });
+  };
+
+  const handleQuickFill = () => {
+    setFullName('Bambang Wijaya');
+    setWhatsapp('081399887766');
+    setEmail('bambang.wijaya@gmail.com');
+    setNik('3174092801930005');
+    setCity('Jakarta Barat');
+    setAddress('Jl. Puri Indah Blok A No. 12, Kembangan');
+    setBankName('Bank Mandiri');
+    setAccountNumber('1370088992211');
+    setAccountHolderName('BAMBANG WIJAYA');
     setPassword('MitraZiel@2026');
     setConfirmPassword('MitraZiel@2026');
     addToast({
       type: 'info',
       title: 'Form Terisi Otomatis (Demo)',
-      message: 'Data formulir kemitraan percontohan telah diisi.',
+      message: 'Data formulir kemitraan atas nama Bambang Wijaya siap didaftarkan.',
     });
   };
 
@@ -93,25 +113,27 @@ export const RegisterView: React.FC = () => {
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
-      setPartner((prev) => ({
-        ...prev,
-        name: fullName,
-        email: email,
-        phone: whatsapp,
+      
+      registerPartner({
+        fullName,
+        whatsapp,
+        email,
+        nik,
+        city,
+        address,
+        bankName,
+        accountNumber,
+        accountHolderName,
+        password,
         partnerCode: newCode,
-        tier: 'Gold Partner',
-        bankAccount: {
-          bankName: bankName,
-          accountNumber: accountNumber,
-          holderName: accountHolderName,
-        },
-      }));
+      });
+
       addToast({
         type: 'success',
         title: 'Pendaftaran Akun Kemitraan Berhasil!',
-        message: `Akun mitra ${newCode} atas nama ${fullName} telah aktif.`,
+        message: `Akun mitra ${newCode} atas nama ${fullName} telah aktif dan siap digunakan.`,
       });
-    }, 800);
+    }, 600);
   };
 
   return (
@@ -134,14 +156,26 @@ export const RegisterView: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <button
+              type="button"
+              onClick={handleResetForm}
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 transition-colors cursor-pointer"
+              title="Kosongkan semua isian form"
+            >
+              <RotateCcw className="w-3.5 h-3.5 text-slate-400" />
+              <span className="hidden sm:inline">Kosongkan Form</span>
+            </button>
+
             <button
               type="button"
               onClick={handleQuickFill}
-              className="hidden sm:inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 transition-colors cursor-pointer"
+              className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300 border border-slate-700 transition-colors cursor-pointer"
+              title="Isi data contoh untuk uji coba"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#FAAC57]" />
-              <span>Isi Data Otomatis (Demo)</span>
+              <span className="hidden sm:inline">Isi Data Otomatis</span>
+              <span className="sm:hidden">Demo</span>
             </button>
 
             <button
@@ -160,13 +194,23 @@ export const RegisterView: React.FC = () => {
         {!isSuccess ? (
           <div className="bg-white text-slate-900 rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100">
             {/* Header Form */}
-            <div className="mb-6 pb-4 border-b border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
-                Pendaftaran Akun Kemitraan
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                Lengkapi identitas diri, nomor rekening pencairan sewa, dan kata sandi akun mitra Anda. Input unit aset akan ditangani langsung oleh tim Admin ZielRental.
-              </p>
+            <div className="mb-6 pb-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900 tracking-tight">
+                  Pendaftaran Akun Kemitraan
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                  Lengkapi data diri, domisili wilayah, rekening pencairan, dan kata sandi akun mitra baru Anda.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleResetForm}
+                className="self-start sm:self-auto text-xs font-semibold text-slate-500 hover:text-[#EC8944] flex items-center space-x-1 cursor-pointer transition-colors"
+              >
+                <RotateCcw className="w-3 h-3" />
+                <span>Reset Form</span>
+              </button>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -193,7 +237,7 @@ export const RegisterView: React.FC = () => {
                         required
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Contoh: Rizky Pratama"
+                        placeholder="Nama lengkap pemilik sesuai KTP"
                         className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden font-medium text-slate-900"
                       />
                     </div>
@@ -210,7 +254,7 @@ export const RegisterView: React.FC = () => {
                         required
                         value={whatsapp}
                         onChange={(e) => setWhatsapp(e.target.value)}
-                        placeholder="081234567890"
+                        placeholder="Contoh: 081234567890"
                         className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden font-medium text-slate-900"
                       />
                     </div>
@@ -227,7 +271,7 @@ export const RegisterView: React.FC = () => {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="nama@email.com"
+                        placeholder="Contoh: nama@email.com"
                         className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden font-medium text-slate-900"
                       />
                     </div>
@@ -245,7 +289,7 @@ export const RegisterView: React.FC = () => {
                         maxLength={16}
                         value={nik}
                         onChange={(e) => setNik(e.target.value)}
-                        placeholder="3171052408920003"
+                        placeholder="16 Digit NIK KTP"
                         className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden font-mono font-medium text-slate-900"
                       />
                     </div>
@@ -257,24 +301,14 @@ export const RegisterView: React.FC = () => {
                     </label>
                     <div className="relative">
                       <MapPin className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                      <select
+                      <input
+                        type="text"
+                        required
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden font-medium text-slate-900 cursor-pointer"
-                      >
-                        <option value="Jakarta Selatan">Jakarta Selatan</option>
-                        <option value="Jakarta Barat">Jakarta Barat</option>
-                        <option value="Jakarta Pusat">Jakarta Pusat</option>
-                        <option value="Jakarta Timur">Jakarta Timur</option>
-                        <option value="Jakarta Utara">Jakarta Utara</option>
-                        <option value="Tangerang Selatan">Tangerang Selatan</option>
-                        <option value="Kota Tangerang">Kota Tangerang</option>
-                        <option value="Kota Bekasi">Kota Bekasi</option>
-                        <option value="Kota Depok">Kota Depok</option>
-                        <option value="Kota Bogor">Kota Bogor</option>
-                        <option value="Kota Bandung">Kota Bandung</option>
-                        <option value="Kota Surabaya">Kota Surabaya</option>
-                      </select>
+                        placeholder="Ketik kota / wilayah domisili (mis. Jakarta Selatan, Surabaya, Bandung)"
+                        className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden font-medium text-slate-900"
+                      />
                     </div>
                   </div>
 
@@ -287,7 +321,7 @@ export const RegisterView: React.FC = () => {
                       required
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan"
+                      placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan / kecamatan"
                       className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden font-medium text-slate-900"
                     />
                   </div>
@@ -357,7 +391,7 @@ export const RegisterView: React.FC = () => {
                       required
                       value={accountHolderName}
                       onChange={(e) => setAccountHolderName(e.target.value)}
-                      placeholder="RIZKY PRATAMA"
+                      placeholder="Nama pemilik sesuai buku tabungan"
                       className="w-full px-4 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden font-medium uppercase text-slate-900"
                     />
                   </div>

@@ -10,6 +10,7 @@ import {
   FileCheck2,
   ShieldCheck,
   Headphones,
+  LogOut,
 } from 'lucide-react';
 import { PageView } from '../../types';
 
@@ -19,7 +20,7 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, setIsMobileOpen }) => {
-  const { currentPage, setCurrentPage, partner, vehicles, documents, availableBalance } = useApp();
+  const { currentPage, setCurrentPage, partner, vehicles, documents, availableBalance, logout } = useApp();
 
   const expiringDocsCount = documents.filter(
     d => d.status === 'expiring_soon' || d.status === 'expired'
@@ -220,22 +221,29 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, setIsMobileOpen 
 
           {/* Profile snippet */}
           <div className="mt-2.5 pt-2 flex items-center justify-between px-1">
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 min-w-0">
               <img
                 src={partner.avatar}
                 alt={partner.name}
-                className="w-7 h-7 rounded-full object-cover border border-[#FAAC57]"
+                className="w-7 h-7 rounded-full object-cover border border-[#FAAC57] shrink-0"
               />
-              <div>
-                <p className="text-xs font-semibold text-slate-200 leading-tight truncate max-w-[120px]">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-slate-200 leading-tight truncate max-w-[100px]">
                   {partner.name}
                 </p>
                 <p className="text-[10px] text-[#FAAC57] font-medium">{partner.tier}</p>
               </div>
             </div>
-            <div className="text-[11px] text-slate-400 font-mono">
-              {partner.partnerCode}
-            </div>
+            <button
+              onClick={() => {
+                setIsMobileOpen(false);
+                logout();
+              }}
+              title="Keluar dari Akun Mitra"
+              className="p-1.5 rounded-lg text-slate-400 hover:text-[#D24B4B] hover:bg-slate-800/80 transition-colors cursor-pointer"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </aside>

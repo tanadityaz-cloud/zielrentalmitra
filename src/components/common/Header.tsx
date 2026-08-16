@@ -31,6 +31,7 @@ export const Header: React.FC<HeaderProps> = ({ onToggleMobileSidebar }) => {
     setSearchQuery,
     vehicles,
     setSelectedUnit,
+    logout,
   } = useApp();
 
   const [isSearchDropdownOpen, setIsSearchDropdownOpen] = useState(false);
@@ -336,8 +337,8 @@ export const Header: React.FC<HeaderProps> = ({ onToggleMobileSidebar }) => {
                   <div className="pt-1 mt-1">
                     <button
                       onClick={() => {
-                        setCurrentPage('login');
                         setIsProfileMenuOpen(false);
+                        logout();
                       }}
                       className="w-full px-3 py-2 flex items-center space-x-2 text-[#D24B4B] hover:bg-[#D24B4B]/10 rounded-lg text-left font-medium transition-colors cursor-pointer"
                     >

@@ -20,17 +20,17 @@ import {
 } from 'lucide-react';
 
 export const LoginView: React.FC = () => {
-  const { setCurrentPage, addToast, partner } = useApp();
+  const { setCurrentPage, addToast, partner, loginWithCredentials, loginDemo, loginWithOtp } = useApp();
 
   const [activeTab, setActiveTab] = useState<'credentials' | 'demo' | 'otp'>('credentials');
   const [identifier, setIdentifier] = useState('rizky.pratama@gmail.com');
-  const [password, setPassword] = useState('••••••••••••');
+  const [password, setPassword] = useState('MitraZiel@2026');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [otpPhone, setOtpPhone] = useState('081234567890');
   const [otpSent, setOtpSent] = useState(false);
-  const [otpCode, setOtpCode] = useState(['', '', '', '']);
+  const [otpCode, setOtpCode] = useState(['8', '8', '2', '1']);
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,34 +38,52 @@ export const LoginView: React.FC = () => {
 
     setTimeout(() => {
       setIsLoading(false);
-      addToast({
-        type: 'success',
-        title: 'Berhasil Masuk Panel Mitra',
-        message: `Selamat datang kembali, ${partner.name}! Sesi kemitraan aktif.`,
-      });
-      setCurrentPage('dashboard');
-    }, 600);
-  };
-
-  const handleDemoLogin = (tierName: string) => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      addToast({
-        type: 'success',
-        title: 'Login Demo Berhasil',
-        message: `Masuk sebagai ${partner.name} (${tierName}).`,
-      });
-      setCurrentPage('dashboard');
+      const res = loginWithCredentials(identifier, password);
+      if (res.success) {
+        addToast({
+          type: 'success',
+          title: 'Berhasil Masuk Panel Mitra',
+          message: res.message,
+        });
+        setCurrentPage('dashboard');
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Gagal Masuk',
+          message: res.message,
+        });
+      }
     }, 400);
   };
 
+  const handleDemoLogin = (tierName: 'Gold Partner' | 'Platinum Partner') => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      loginDemo(tierName);
+      addToast({
+        type: 'success',
+        title: 'Login Demo Berhasil',
+        message: `Masuk sebagai ${tierName === 'Platinum Partner' ? 'Siti Nurhaliza' : 'Rizky Pratama'} (${tierName}).`,
+      });
+      setCurrentPage('dashboard');
+    }, 300);
+  };
+
   const handleSendOtp = () => {
+    if (!otpPhone || otpPhone.length < 9) {
+      addToast({
+        type: 'warning',
+        title: 'Nomor Tidak Valid',
+        message: 'Masukkan nomor WhatsApp aktif dengan benar.',
+      });
+      return;
+    }
     setOtpSent(true);
     addToast({
       type: 'info',
       title: 'Kode OTP Terkirim',
-      message: `Kode 4 digit verifikasi telah dikirimkan ke WhatsApp ${otpPhone}.`,
+      message: `Kode 4 digit verifikasi telah dikirimkan ke WhatsApp ${otpPhone}. (Gunakan kode: 8821)`,
     });
   };
 
@@ -74,13 +92,23 @@ export const LoginView: React.FC = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      addToast({
-        type: 'success',
-        title: 'Verifikasi Berhasil',
-        message: `Selamat datang, ${partner.name}!`,
-      });
-      setCurrentPage('dashboard');
-    }, 500);
+      const codeStr = otpCode.join('');
+      const res = loginWithOtp(otpPhone, codeStr);
+      if (res.success) {
+        addToast({
+          type: 'success',
+          title: 'Verifikasi Berhasil',
+          message: res.message,
+        });
+        setCurrentPage('dashboard');
+      } else {
+        addToast({
+          type: 'error',
+          title: 'Verifikasi Gagal',
+          message: res.message,
+        });
+      }
+    }, 400);
   };
 
   return (
@@ -257,6 +285,43 @@ export const LoginView: React.FC = () => {
               {/* TAB 1: Standard Credentials Form */}
               {activeTab === 'credentials' && (
                 <form onSubmit={handleLoginSubmit} className="space-y-4">
+                  {/* Quick Fill Hints */}
+                  <div className="flex items-center justify-between p-2.5 bg-[#FFF2C5]/40 rounded-xl border border-[#FAAC57]/30 text-xs">
+                    <span className="text-slate-600 text-[11px] font-medium">Isi Cepat:</span>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIdentifier('rizky.pratama@gmail.com');
+                          setPassword('MitraZiel@2026');
+                          addToast({
+                            type: 'info',
+                            title: 'Kredensial Terisi',
+                            message: 'Email & Password Rizky Pratama (Gold Partner) siap digunakan.',
+                          });
+                        }}
+                        className="px-2 py-1 bg-white hover:bg-[#FAAC57]/20 text-[#EC8944] font-bold text-[10px] rounded-md border border-[#FAAC57]/40 cursor-pointer"
+                      >
+                        Rizky (Gold)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIdentifier('siti.nurhaliza@gmail.com');
+                          setPassword('MitraZiel@2026');
+                          addToast({
+                            type: 'info',
+                            title: 'Kredensial Terisi',
+                            message: 'Email & Password Siti Nurhaliza (Platinum) siap digunakan.',
+                          });
+                        }}
+                        className="px-2 py-1 bg-white hover:bg-[#82A859]/20 text-[#48661D] font-bold text-[10px] rounded-md border border-[#82A859]/40 cursor-pointer"
+                      >
+                        Siti (Platinum)
+                      </button>
+                    </div>
+                  </div>
+
                   <div>
                     <label className="block text-xs font-bold text-slate-700 mb-1.5">
                       Email / Nomor WhatsApp Mitra
@@ -285,7 +350,7 @@ export const LoginView: React.FC = () => {
                           addToast({
                             type: 'info',
                             title: 'Bantuan Reset PIN/Password',
-                            message: 'Instruksi reset PIN telah disiapkan melalui WhatsApp PIC Care Anda.',
+                            message: 'Gunakan password default: MitraZiel@2026 atau hubungi PIC Care Anda.',
                           });
                         }}
                         className="text-[11px] text-[#EC8944] hover:text-[#F4904B] font-semibold cursor-pointer"
@@ -351,13 +416,13 @@ export const LoginView: React.FC = () => {
 
                   <div
                     onClick={() => handleDemoLogin('Gold Partner')}
-                    className="p-3.5 rounded-2xl border-2 border-[#82A859]/30 bg-[#A9D589]/10 hover:bg-[#A9D589]/20 transition-all cursor-pointer flex items-center justify-between"
+                    className="p-3.5 rounded-2xl border-2 border-[#82A859]/30 bg-[#A9D589]/10 hover:bg-[#A9D589]/20 transition-all cursor-pointer flex items-center justify-between group"
                   >
                     <div className="flex items-center space-x-3">
                       <img
-                        src={partner.avatar}
+                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
                         alt="Rizky Pratama"
-                        className="w-10 h-10 rounded-xl object-cover border border-[#82A859]"
+                        className="w-11 h-11 rounded-xl object-cover border-2 border-[#82A859]"
                       />
                       <div>
                         <div className="flex items-center space-x-1.5">
@@ -367,22 +432,24 @@ export const LoginView: React.FC = () => {
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-600">24 Unit (Stroller, Car Seat, Crib)</p>
-                        <p className="text-[10px] text-slate-400 font-mono">Saldo: Rp 5.235.000</p>
+                        <p className="text-[10px] text-[#EC8944] font-bold font-mono">Saldo: Rp 7.985.000</p>
                       </div>
                     </div>
-                    <button className="px-3 py-1.5 bg-[#82A859] hover:bg-[#48661D] text-white rounded-lg text-xs font-bold">
+                    <button className="px-3.5 py-1.5 bg-[#82A859] hover:bg-[#48661D] text-white rounded-lg text-xs font-bold transition-colors">
                       Masuk
                     </button>
                   </div>
 
                   <div
                     onClick={() => handleDemoLogin('Platinum Partner')}
-                    className="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-all cursor-pointer flex items-center justify-between"
+                    className="p-3.5 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-slate-100 transition-all cursor-pointer flex items-center justify-between group"
                   >
                     <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-xl bg-slate-800 text-white flex items-center justify-center font-bold text-sm">
-                        SN
-                      </div>
+                      <img
+                        src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80"
+                        alt="Siti Nurhaliza"
+                        className="w-11 h-11 rounded-xl object-cover border-2 border-purple-400"
+                      />
                       <div>
                         <div className="flex items-center space-x-1.5">
                           <h4 className="text-xs font-bold text-slate-900">Siti Nurhaliza</h4>
@@ -391,10 +458,10 @@ export const LoginView: React.FC = () => {
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-600">38 Unit (Playground & Mainan Edukasi)</p>
-                        <p className="text-[10px] text-slate-400 font-mono">Saldo: Rp 12.850.000</p>
+                        <p className="text-[10px] text-[#EC8944] font-bold font-mono">Saldo: Rp 12.850.000</p>
                       </div>
                     </div>
-                    <button className="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold">
+                    <button className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold transition-colors">
                       Masuk
                     </button>
                   </div>
@@ -431,7 +498,7 @@ export const LoginView: React.FC = () => {
                   ) : (
                     <form onSubmit={handleOtpSubmit} className="space-y-4">
                       <div className="p-3 bg-[#A9D589]/20 rounded-xl border border-[#82A859]/30 text-xs text-[#48661D]">
-                        Kode OTP 4 digit telah dikirim ke <strong>{otpPhone}</strong>
+                        Kode OTP 4 digit telah dikirim ke <strong>{otpPhone}</strong> (Gunakan: <strong>8821</strong>)
                       </div>
                       <div>
                         <label className="block text-xs font-bold text-slate-700 mb-1.5 text-center">
@@ -443,7 +510,15 @@ export const LoginView: React.FC = () => {
                               key={idx}
                               type="text"
                               maxLength={1}
-                              defaultValue={idx === 0 ? '8' : idx === 1 ? '8' : idx === 2 ? '2' : '1'}
+                              value={otpCode[idx] || ''}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                setOtpCode(prev => {
+                                  const copy = [...prev];
+                                  copy[idx] = val;
+                                  return copy;
+                                });
+                              }}
                               className="w-12 h-12 text-center text-lg font-bold font-mono bg-slate-50 border border-slate-200 rounded-xl focus:border-[#EC8944] focus:ring-2 focus:ring-[#FAAC57]/30 outline-hidden"
                             />
                           ))}
