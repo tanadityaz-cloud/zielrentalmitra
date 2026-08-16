@@ -480,15 +480,14 @@ export const LoginView: React.FC = () => {
                 <p className="text-xs text-slate-500">
                   Belum terdaftar sebagai mitra pemilik aset?
                 </p>
-                <a
-                  href="https://wa.me/6281299887722?text=Halo%20ZielRental%2C%20saya%20tertarik%20mendaftarkan%20aset%20perlengkapan%20bayi%20saya%20sebagai%20Mitra"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#EC8944] hover:text-[#F4904B] transition-colors"
+                <button
+                  type="button"
+                  onClick={() => setCurrentPage('register')}
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#EC8944] hover:text-[#F4904B] transition-colors cursor-pointer"
                 >
                   <span>Daftar Kemitraan Baru ZielRental</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </a>
+                </button>
               </div>
             </div>
           </div>

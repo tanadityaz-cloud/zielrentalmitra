@@ -18,7 +18,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children }) => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   return (
-    <div id="app-shell-root" className="min-h-screen bg-slate-100/70 text-slate-900 flex font-sans antialiased">
+    <div id="app-shell-root" className="min-h-screen bg-[#FEFEFE] text-[#3B3B3B] flex font-sans antialiased">
       {/* Sidebar Navigation */}
       <Sidebar
         isMobileOpen={isMobileSidebarOpen}

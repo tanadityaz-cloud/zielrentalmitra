@@ -29,16 +29,16 @@ export function DataTable<T>({
   className = '',
 }: DataTableProps<T>) {
   return (
-    <div className={`bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden ${className}`}>
+    <div className={`bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden ${className}`}>
       <div className="overflow-x-auto">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-50 text-slate-500 font-semibold border-b border-slate-200">
+          <thead className="bg-[#FFF2C5]/30 text-[#3B3B3B] font-bold border-b border-slate-200/80">
             <tr>
               {columns.map(col => (
                 <th
                   key={col.key}
                   style={{ width: col.width }}
-                  className={`py-3.5 px-4 font-semibold ${
+                  className={`py-3.5 px-4 font-bold ${
                     col.align === 'right'
                       ? 'text-right'
                       : col.align === 'center'
@@ -56,7 +56,7 @@ export function DataTable<T>({
               <tr>
                 <td colSpan={columns.length} className="py-12 text-center text-slate-400">
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="w-4 h-4 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-4 h-4 border-2 border-[#EC8944] border-t-transparent rounded-full animate-spin"></div>
                     <span className="text-xs font-medium text-slate-500">Memuat data...</span>
                   </div>
                 </td>
@@ -73,7 +73,7 @@ export function DataTable<T>({
                   key={keyExtractor(item)}
                   onClick={() => onRowClick && onRowClick(item)}
                   className={`transition-colors ${
-                    onRowClick ? 'hover:bg-slate-50/80 cursor-pointer' : ''
+                    onRowClick ? 'hover:bg-[#FFF2C5]/30 cursor-pointer' : ''
                   }`}
                 >
                   {columns.map(col => (

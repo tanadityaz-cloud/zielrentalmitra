@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'elevated' | 'dark' | 'emerald' | 'subtle';
+  variant?: 'default' | 'elevated' | 'dark' | 'olive' | 'subtle' | 'buttercream';
   padding?: 'none' | 'sm' | 'md' | 'lg';
   children?: React.ReactNode;
 }
@@ -14,11 +14,12 @@ export const Card: React.FC<CardProps> = ({
   ...props
 }) => {
   const variantStyles: Record<string, string> = {
-    default: 'bg-white border border-slate-200 shadow-xs text-slate-900',
-    elevated: 'bg-white border border-slate-200/80 shadow-md text-slate-900',
-    dark: 'bg-slate-900 border border-slate-800 text-white shadow-xl',
-    emerald: 'bg-gradient-to-br from-emerald-900 via-slate-900 to-slate-900 border border-emerald-800/50 text-white shadow-xl',
-    subtle: 'bg-slate-50 border border-slate-200 text-slate-900',
+    default: 'bg-white border border-slate-200/80 shadow-xs text-[#3B3B3B]',
+    elevated: 'bg-white border border-slate-200/80 shadow-md text-[#3B3B3B]',
+    dark: 'bg-[#3B3B3B] border border-slate-800 text-white shadow-xl',
+    olive: 'bg-gradient-to-br from-[#48661D] via-[#82A859] to-[#82A859] border border-[#82A859]/50 text-white shadow-xl',
+    subtle: 'bg-[#FEFEFE] border border-slate-200/70 text-[#3B3B3B]',
+    buttercream: 'bg-[#FFF2C5]/40 border border-[#FAAC57]/30 text-[#3B3B3B]',
   };
 
   const paddingStyles: Record<string, string> = {

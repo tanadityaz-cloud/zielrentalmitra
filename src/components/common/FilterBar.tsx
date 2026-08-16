@@ -29,7 +29,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
 }) => {
   return (
     <div
-      className={`p-4 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3 text-xs ${className}`}
+      className={`p-4 bg-white rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3 text-xs ${className}`}
     >
       {/* Search Bar */}
       <div className="relative w-full sm:w-80">
@@ -39,12 +39,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           value={searchValue}
           onChange={e => onSearchChange(e.target.value)}
           placeholder={searchPlaceholder}
-          className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-500 focus:bg-white text-slate-800 font-medium placeholder:text-slate-400 transition-all focus:ring-2 focus:ring-emerald-500/20"
+          className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#EC8944] focus:bg-white text-[#3B3B3B] font-medium placeholder:text-slate-400 transition-all focus:ring-2 focus:ring-[#FAAC57]/30"
         />
         {searchValue && (
           <button
             onClick={() => onSearchChange('')}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-[11px] font-semibold"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#EC8944] text-[11px] font-semibold cursor-pointer"
           >
             Reset
           </button>
@@ -58,7 +58,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
             key={idx}
             value={filter.value}
             onChange={e => filter.onChange(e.target.value)}
-            className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-medium outline-none focus:border-emerald-500 transition-colors"
+            className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[#3B3B3B] font-medium outline-none focus:border-[#EC8944] transition-colors cursor-pointer"
           >
             {filter.options.map(opt => (
               <option key={opt.value} value={opt.value}>

@@ -1,5 +1,6 @@
 export type PageView =
   | 'login'
+  | 'register'
   | 'dashboard'
   | 'assets'
   | 'unit-detail'

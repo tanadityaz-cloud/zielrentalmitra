@@ -10,12 +10,17 @@ import { CashflowView } from './components/views/CashflowView';
 import { WithdrawalView } from './components/views/WithdrawalView';
 import { DocumentsView } from './components/views/DocumentsView';
 import { LoginView } from './components/views/LoginView';
+import { RegisterView } from './components/views/RegisterView';
 
 const MainContent: React.FC = () => {
   const { currentPage } = useApp();
 
   if (currentPage === 'login') {
     return <LoginView />;
+  }
+
+  if (currentPage === 'register') {
+    return <RegisterView />;
   }
 
   const renderCurrentView = () => {

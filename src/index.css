@@ -1,10 +1,24 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary-apricot: #FAAC57;
+  --color-primary-leaf: #A9D589;
+  --color-secondary-tangerine: #F4904B;
+  --color-secondary-olive: #82A859;
+  --color-text-burnt: #EC8944;
+  --color-text-forest: #48661D;
+  --color-accent-coral: #D24B4B;
+  --color-accent-buttercream: #FFF2C5;
+  --color-neutral-white: #FFFFFF;
+  --color-neutral-offwhite: #FEFEFE;
+  --color-neutral-charcoal: #3B3B3B;
+}
+
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    color: #1e293b;
-    background-color: #f8fafc;
+    color: #3B3B3B;
+    background-color: #FEFEFE;
   }
 }
 
@@ -15,21 +29,21 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #FFF2C5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #FAAC57;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #EC8944;
 }
 
 /* Glass & Card effects */
 .card-subtle-shadow {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px 0 rgba(59, 59, 59, 0.06), 0 1px 2px -1px rgba(59, 59, 59, 0.04);
 }
 
 .card-hover-shadow {
@@ -38,7 +52,7 @@
 
 .card-hover-shadow:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 10px 15px -3px rgba(59, 59, 59, 0.08), 0 4px 6px -4px rgba(59, 59, 59, 0.04);
 }
 
 @keyframes pulse-subtle {

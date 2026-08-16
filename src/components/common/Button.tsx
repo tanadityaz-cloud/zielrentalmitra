@@ -1,7 +1,7 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost' | 'dark';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost' | 'dark' | 'olive';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -29,17 +29,19 @@ export const Button: React.FC<ButtonProps> = ({
 
   const variantStyles: Record<ButtonVariant, string> = {
     primary:
-      'bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white shadow-xs shadow-emerald-700/20 focus:ring-emerald-500 border border-transparent',
+      'bg-[#EC8944] hover:bg-[#F4904B] active:bg-[#EC8944] text-white shadow-xs shadow-[#EC8944]/20 focus:ring-[#FAAC57] border border-transparent',
     secondary:
-      'bg-slate-100 hover:bg-slate-200 text-slate-700 active:bg-slate-300 focus:ring-slate-400 border border-transparent',
+      'bg-[#FFF2C5] hover:bg-[#FFF2C5]/80 text-[#EC8944] active:bg-[#FFF2C5] focus:ring-[#FAAC57] border border-[#FAAC57]/40',
     outline:
-      'bg-white hover:bg-slate-50 text-slate-700 active:bg-slate-100 border border-slate-200 shadow-xs focus:ring-slate-400',
+      'bg-white hover:bg-[#FEFEFE] text-[#3B3B3B] active:bg-[#FFF2C5]/30 border border-slate-200 shadow-xs focus:ring-[#FAAC57]',
     danger:
-      'bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white shadow-xs shadow-rose-700/20 focus:ring-rose-500 border border-transparent',
+      'bg-[#D24B4B] hover:bg-[#D24B4B]/90 active:bg-[#D24B4B] text-white shadow-xs shadow-[#D24B4B]/20 focus:ring-[#D24B4B] border border-transparent',
     ghost:
-      'bg-transparent hover:bg-slate-100 text-slate-700 active:bg-slate-200 focus:ring-slate-400 border border-transparent',
+      'bg-transparent hover:bg-slate-100 text-[#3B3B3B] active:bg-slate-200 focus:ring-[#FAAC57] border border-transparent',
     dark:
-      'bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white shadow-xs shadow-slate-900/30 focus:ring-slate-700 border border-slate-800',
+      'bg-[#3B3B3B] hover:bg-[#3B3B3B]/90 active:bg-black text-white shadow-xs shadow-[#3B3B3B]/30 focus:ring-[#3B3B3B] border border-[#3B3B3B]',
+    olive:
+      'bg-[#82A859] hover:bg-[#48661D] active:bg-[#82A859] text-white shadow-xs shadow-[#82A859]/20 focus:ring-[#A9D589] border border-transparent',
   };
 
   const sizeStyles: Record<ButtonSize, string> = {

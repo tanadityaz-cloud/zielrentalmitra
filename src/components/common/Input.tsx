@@ -25,7 +25,7 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={`w-full space-y-1.5 ${containerClassName}`}>
       {label && (
-        <label htmlFor={generatedId} className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+        <label htmlFor={generatedId} className="block text-xs font-bold text-[#3B3B3B] uppercase tracking-wider">
           {label}
         </label>
       )}
@@ -37,12 +37,12 @@ export const Input: React.FC<InputProps> = ({
         )}
         <input
           id={generatedId}
-          className={`w-full py-2.5 text-xs sm:text-sm bg-slate-50 border rounded-xl outline-none font-medium text-slate-800 placeholder:text-slate-400 transition-all focus:bg-white focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-60 disabled:bg-slate-100 ${
+          className={`w-full py-2.5 text-xs sm:text-sm bg-slate-50 border rounded-xl outline-none font-medium text-[#3B3B3B] placeholder:text-slate-400 transition-all focus:bg-white focus:ring-2 focus:ring-[#FAAC57]/30 disabled:opacity-60 disabled:bg-slate-100 ${
             leftIcon ? 'pl-10' : 'pl-3.5'
           } ${rightIcon ? 'pr-10' : 'pr-3.5'} ${
             error
-              ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20'
-              : 'border-slate-200 focus:border-emerald-500'
+              ? 'border-[#D24B4B] focus:border-[#D24B4B] focus:ring-[#D24B4B]/20 text-[#D24B4B]'
+              : 'border-slate-200 focus:border-[#EC8944]'
           } ${className}`}
           {...props}
         />
@@ -52,7 +52,7 @@ export const Input: React.FC<InputProps> = ({
           </div>
         )}
       </div>
-      {error && <p className="text-[11px] font-medium text-rose-600">{error}</p>}
+      {error && <p className="text-[11px] font-medium text-[#D24B4B]">{error}</p>}
       {!error && helperText && <p className="text-[11px] text-slate-500">{helperText}</p>}
     </div>
   );
